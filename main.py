@@ -9,7 +9,7 @@ if "fake" not in st.session_state:
     st.session_state.fake = FakeYou()
     st.session_state.fake.login("MustafaCAN", password="DExvc5JhJ6bsWfW")
     st.session_state.fake_file_name = "output.mp3"
-    st.session_state.openai_key = "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"
+    st.session_state.openai_key = st.secrets["openai_key"]
 
 if "history" not in st.session_state:
     st.session_state.history = [{"role": "system", 
