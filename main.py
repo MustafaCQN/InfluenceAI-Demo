@@ -2,7 +2,7 @@ import openai
 import streamlit as st
 from streamlit_chat import message
 from fakeyou import FakeYou
-import winsound
+# import winsound
 import os
 import base64
 from threading import Thread
