@@ -55,7 +55,8 @@ def vocalize_output(fake, file_name, output):
     save_output(fake, file_name, output)
     # winsound.PlaySound(file_name, winsound.SND_FILENAME)
     # st.audio(file_name, format="audio/mp3")
-    autoplay_audio(file_name, mymidia_placeholder)
+    # autoplay_audio(file_name, mymidia_placeholder)
+    auplay(file_name)
     # os.system(f"start {file_name}")
     # playsound(file_name)
 
@@ -63,6 +64,13 @@ def save_output(fake, file_name, output):
     res = fake.make_tts_job(output, "TM:qmr1mfe2zs46")
     poll_res = fake.tts_poll(res)
     poll_res.save(file_name)
+
+def auplay(file_path):
+    with open(file_path, "rb") as f:
+        data = f.read()
+        audio_base64 = base64.b64encode(data).decode('utf-8')
+        audio_tag = f'<audio autoplay="true" src="data:audio/mp3;base64,{audio_base64}">'
+        st.markdown(audio_tag, unsafe_allow_html=True)
 
 def autoplay_audio(file_path: str, mymidia_placeholder):
     with open(file_path, "rb") as f:
