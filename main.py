@@ -42,9 +42,10 @@ def execute_openai():
     # add the response to the history
     st.session_state.output = response.choices[0].message.content
     st.session_state.history.append({"role": "assistant", "content": f'''{response.choices[0].message.content}'''})
-    thread1 = Thread(target=vocalize_output, name="vocalize_thread", args=(st.session_state.fake, st.session_state.fake_file_name, st.session_state.output))
-    add_script_run_ctx(thread1) # mandatory for st usage inside threads
-    thread1.start()
+    # thread1 = Thread(target=vocalize_output, name="vocalize_thread", args=(st.session_state.fake, st.session_state.fake_file_name, st.session_state.output))
+    # add_script_run_ctx(thread1) # mandatory for st usage inside threads
+    # thread1.start()
+    vocalize_output(st.session_state.fake, st.session_state.fake_file_name, st.session_state.output)
     print_history()
     clear_input()
 
