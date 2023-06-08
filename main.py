@@ -51,7 +51,7 @@ def execute_openai():
     clear_input()
 
 def vocalize_output(fake, file_name, output):
-    mymidia_placeholder.empty()
+    # mymidia_placeholder.empty()
     save_output(fake, file_name, output)
     # winsound.PlaySound(file_name, winsound.SND_FILENAME)
     # st.audio(file_name, format="audio/mp3")
