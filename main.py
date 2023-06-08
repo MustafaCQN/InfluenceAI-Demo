@@ -3,6 +3,7 @@ import streamlit as st
 from streamlit_chat import message
 from fakeyou import FakeYou
 # import winsound
+from playsound import playsound
 import os
 import base64
 from threading import Thread
@@ -53,7 +54,8 @@ def vocalize_output(fake, file_name, output):
     # winsound.PlaySound(file_name, winsound.SND_FILENAME)
     # st.audio(file_name, format="audio/mp3")
     # autoplay_audio(file_name)
-    os.system(f"start {file_name}")
+    # os.system(f"start {file_name}")
+    playsound('audio.mp3')
 
 def save_output(fake, file_name, output):
     res = fake.make_tts_job(output, "TM:qmr1mfe2zs46")
