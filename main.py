@@ -13,6 +13,7 @@ if "fake" not in st.session_state:
     st.session_state.fake.login("MustafaCAN", password="DExvc5JhJ6bsWfW")
     st.session_state.fake_file_name = "output.mp3"
     st.session_state.openai_key = st.secrets["openai_key"]
+    mymidia_placeholder = st.empty()
 
 if "history" not in st.session_state:
     st.session_state.history = [{"role": "system", 
@@ -50,10 +51,11 @@ def execute_openai():
     clear_input()
 
 def vocalize_output(fake, file_name, output):
+    mymidia_placeholder.empty()
     save_output(fake, file_name, output)
     # winsound.PlaySound(file_name, winsound.SND_FILENAME)
     # st.audio(file_name, format="audio/mp3")
-    autoplay_audio(file_name)
+    autoplay_audio(file_name, mymidia_placeholder)
     # os.system(f"start {file_name}")
     # playsound(file_name)
 
@@ -62,7 +64,7 @@ def save_output(fake, file_name, output):
     poll_res = fake.tts_poll(res)
     poll_res.save(file_name)
 
-def autoplay_audio(file_path: str):
+def autoplay_audio(file_path: str, mymidia_placeholder):
     with open(file_path, "rb") as f:
         data = f.read()
         b64 = base64.b64encode(data).decode()
@@ -71,7 +73,7 @@ def autoplay_audio(file_path: str):
             <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
             </audio>
             """
-        st.markdown(
+        mymidia_placeholder.markdown(
             md,
             unsafe_allow_html=True,
         )
