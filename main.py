@@ -71,7 +71,6 @@ def autoplay_audio(file_path: str):
             <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
             </audio>
             """
-        st.write("deneme")
         st.markdown(
             md,
             unsafe_allow_html=True,
