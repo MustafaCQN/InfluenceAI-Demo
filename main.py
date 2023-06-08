@@ -3,7 +3,10 @@ import streamlit as st
 from streamlit_chat import message
 from fakeyou import FakeYou
 import winsound
+import os
+import base64
 from threading import Thread
+from streamlit.runtime.scriptrunner.script_run_context import add_script_run_ctx
 
 if "fake" not in st.session_state:
     st.session_state.fake = FakeYou()
@@ -39,18 +42,37 @@ def execute_openai():
     # add the response to the history
     st.session_state.output = response.choices[0].message.content
     st.session_state.history.append({"role": "assistant", "content": f'''{response.choices[0].message.content}'''})
-    Thread(target=vocalize_output, name="vocalize_thread", args=(st.session_state.fake, st.session_state.fake_file_name, st.session_state.output)).start()
+    thread1 = Thread(target=vocalize_output, name="vocalize_thread", args=(st.session_state.fake, st.session_state.fake_file_name, st.session_state.output))
+    add_script_run_ctx(thread1) # mandatory for st usage inside threads
+    thread1.start()
     print_history()
     clear_input()
 
 def vocalize_output(fake, file_name, output):
     save_output(fake, file_name, output)
-    winsound.PlaySound(file_name, winsound.SND_FILENAME)
+    # winsound.PlaySound(file_name, winsound.SND_FILENAME)
+    # st.audio(file_name, format="audio/mp3")
+    # autoplay_audio(file_name)
+    os.system(f"start {file_name}")
 
 def save_output(fake, file_name, output):
     res = fake.make_tts_job(output, "TM:qmr1mfe2zs46")
     poll_res = fake.tts_poll(res)
     poll_res.save(file_name)
+
+def autoplay_audio(file_path: str):
+    with open(file_path, "rb") as f:
+        data = f.read()
+        b64 = base64.b64encode(data).decode()
+        md = f"""
+            <audio controls autoplay="true">
+            <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
+            </audio>
+            """
+        st.markdown(
+            md,
+            unsafe_allow_html=True,
+        )
 
 def print_history():
     # print the history if its not system & clear the input
