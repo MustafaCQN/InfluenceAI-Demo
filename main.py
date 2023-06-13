@@ -100,4 +100,6 @@ def clear_input():
     st.session_state.input = ""
 
 
-st.text_input("Type something", key="input", on_change=execute_openai, placeholder="Hello, how are you?")
+st.text_input("Type something", key="input", on_change=execute_openai, placeholder="Hello, how are you?", help="This is a demo app made by Blueclip")
+# st.error("Due to being a prototype you may experience weird noises and delays.", icon='⚠️')
+# st.info("Made by Blueclip")
